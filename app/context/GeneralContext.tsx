@@ -6,10 +6,13 @@ const GeneralContext = createContext<types.GeneralContextType>({
   authorizeUser: () => null,
   isAuthorized: false,
   checkForAuthorization: () => null,
+  setActiveUser: () => null,
+  activeUser: {},
 })
 
 export const GeneralProvider: FC<types.IProps> = ({ children }) => {
   const [isAuthorized, setIsAuthorized] = useState(false)
+  const [activeUser, setActiveUser] = useState({})
 
   const authorizeUser = async () => {
     await AsyncStorage.setItem("isAuthorized", "true")
@@ -36,6 +39,8 @@ export const GeneralProvider: FC<types.IProps> = ({ children }) => {
         authorizeUser,
         isAuthorized,
         checkForAuthorization,
+        setActiveUser,
+        activeUser,
       }}
     >
       {children}
