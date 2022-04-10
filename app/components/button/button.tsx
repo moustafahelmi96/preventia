@@ -1,7 +1,9 @@
 import * as React from "react"
-import { TouchableOpacity } from "react-native"
-import { Text } from "../text/text"
-import { viewPresets, textPresets } from "./button.presets"
+import { ActivityIndicator } from "react-native"
+import styled from "styled-components/native"
+import { color } from "../../theme"
+import { perfectHeight, perfectWidth } from "../../utils/commonFunctions"
+import Typography from "../Typography"
 import { ButtonProps } from "./button.props"
 
 /**
@@ -12,25 +14,71 @@ import { ButtonProps } from "./button.props"
 export function Button(props: ButtonProps) {
   // grab the props
   const {
-    preset = "primary",
-    tx,
+    width,
+    height,
+    backgroundColor,
+    borderColor,
+    onPress,
+    textColor = color.palette.white,
     text,
-    style: styleOverride,
-    textStyle: textStyleOverride,
-    children,
-    ...rest
+    loader = false,
+    outline,
+    disabled,
+    size,
   } = props
 
-  const viewStyle = viewPresets[preset] || viewPresets.primary
-  const viewStyles = [viewStyle, styleOverride]
-  const textStyle = textPresets[preset] || textPresets.primary
-  const textStyles = [textStyle, textStyleOverride]
-
-  const content = children || <Text tx={tx} text={text} style={textStyles} />
 
   return (
-    <TouchableOpacity style={viewStyles} {...rest}>
-      {content}
-    </TouchableOpacity>
+    <>
+      <ButtonContainer
+        width={width}
+        height={height}
+        borderColor={borderColor}
+        backgroundColor={backgroundColor}
+        onPress={onPress}
+        disabled={disabled ? true : !!loader}
+        loader={loader}
+        outline={outline}
+        {...props}
+      >
+        {loader ? (
+          <ActivityIndicator size='small' color={color.palette.white} />
+        ) : (
+          <Typography
+            color={textColor}
+            text={text}
+            size={size}
+            textTransform={'uppercase'}
+            textAlign={'center'}
+          />
+        )}
+      </ButtonContainer>
+    </>
   )
 }
+
+
+const ButtonContainer = styled.TouchableOpacity`
+  width: ${p => (p.width ? perfectWidth(p.width) : perfectWidth(80))}px;
+  height: ${p => (p.height ? perfectHeight(p.height) : perfectHeight(7))}px;
+  background-color: ${({ loader, outline, disabled }) => handleColorType(loader, outline, disabled)};
+  align-self: ${p => (p.alignSelf ? p.alignSelf : 'center')};
+  justify-content: center;
+  align-items: center;
+  border-radius: ${perfectWidth(2)}px;
+  border-color: ${p => (p.borderColor ? p.borderColor : p.theme.secondary)};
+  border-width: ${p => (p.outline ? perfectWidth(0.2) : perfectWidth(0))}px;
+`
+
+const handleColorType = (loader, outline, disabled) => {
+  if (loader) {
+    return color.palette.lightGrey;
+  } else if (outline) {
+    return 'transparent';
+  } else if (disabled) {
+    return color.palette.lightGrey;
+  } else {
+    return color.palette.orangeDarker;
+  }
+};
+

@@ -32,4 +32,14 @@ export interface ButtonProps extends TouchableOpacityProps {
    * One of the different types of text presets.
    */
   children?: React.ReactNode
+
+  width?: number
+  height?: number
+  backgroundColor?: string
+  borderColor?: string
+  textColor?: string
+  loader?: boolean
+  outline?: boolean
+  disabled?: boolean
+  size?: number
 }
