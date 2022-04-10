@@ -14,9 +14,9 @@ type TypographyProps = {
 
 const Typography: React.FC<TypographyProps> = ({
   text,
-  color = palette.angry,
+  color = palette.black,
   size = 16,
-  fontFamily,
+  // fontFamily,
   noLimit,
   maxChar = 50,
   isRequired,
@@ -24,7 +24,9 @@ const Typography: React.FC<TypographyProps> = ({
 }: TypographyProps) => {
   return (
     <Row>
-      <Text size={perfectFont(size)} fontFamily={fontFamily} color={color} style={{ ...props }}>
+      <Text size={perfectFont(size)}
+        // fontFamily={fontFamily}
+        color={color} style={{ ...props }}>
         {noLimit
           ? text
           : text !== undefined && (text.length >= maxChar ? text.slice(0, maxChar) + '...' : text)}
@@ -32,7 +34,7 @@ const Typography: React.FC<TypographyProps> = ({
       {isRequired && (
         <Text
           size={perfectFont(20)}
-          fontFamily={fontFamily}
+          // fontFamily={fontFamily}
           color={palette.angry}
           style={{ marginLeft: perfectWidth(1) }}
         >
@@ -54,7 +56,7 @@ type TextProps = {
 }
 
 const Text = styled.Text<TextProps>`
-  font-family: ${props => props.fontFamily};
+  /* font-family: ${props => props.fontFamily}; */
   font-size: ${props => props.size}px;
   color: ${props => props.color};
   padding-top: 3px;
