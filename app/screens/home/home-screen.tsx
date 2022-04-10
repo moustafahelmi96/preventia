@@ -8,10 +8,7 @@ import { Screen, Text } from "../../components"
 // import { useStores } from "../../models"
 import { color } from "../../theme"
 
-const ROOT: ViewStyle = {
-  backgroundColor: color.palette.black,
-  flex: 1,
-}
+
 
 // STOP! READ ME FIRST!
 // To fix the TS error below, you'll need to add the following things in your navigation config:
@@ -34,3 +31,9 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
     </Screen>
   )
 })
+
+
+const ROOT: ViewStyle = {
+  backgroundColor: color.palette.white,
+  flex: 1,
+}

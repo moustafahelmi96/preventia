@@ -1,18 +1,18 @@
 import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 import {
-  DemoScreen
+  HomeScreen
 } from "../../screens"
 
 export type HomeNavigatorParamList = {
-  demo: undefined
+  home: undefined
 }
 
 const Stack = createStackNavigator<HomeNavigatorParamList>()
 export const HomeNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ cardStyle: { backgroundColor: "transparent" }, headerShown: false, }}>
-      <Stack.Screen name="demo" component={DemoScreen} />
+      <Stack.Screen name="home" component={HomeScreen} />
     </Stack.Navigator>
   )
 }
