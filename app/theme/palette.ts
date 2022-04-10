@@ -8,4 +8,5 @@ export const palette = {
   lighterGrey: "#CDD4DA",
   angry: "#dd3333",
   deepPurple: "#5D2555",
+  lightGreyBackground: "rgba(232, 235, 243, 0.2)",
 }
