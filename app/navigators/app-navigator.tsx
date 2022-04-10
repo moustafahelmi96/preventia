@@ -4,13 +4,14 @@
  * Generally speaking, it will contain an auth flow (registration, login, forgot password)
  * and a "main" flow which the user will use once logged in.
  */
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import { useColorScheme } from "react-native"
 import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { WelcomeScreen, DemoScreen, DemoListScreen, LoginScreen } from "../screens"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
 import { BottomNavigator } from "./bottom/bottom-navigator"
+import GeneralContext from "../context/GeneralContext"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -55,7 +56,9 @@ interface NavigationProps extends Partial<React.ComponentProps<typeof Navigation
 export const AppNavigator = (props: NavigationProps) => {
   const colorScheme = useColorScheme()
   useBackButtonHandler(canExit)
-  const [isAuthorized, setIsAuthorized] = useState(false)
+
+  const { isAuthorized } = useContext(GeneralContext)
+  
   return (
     <NavigationContainer
       ref={navigationRef}
