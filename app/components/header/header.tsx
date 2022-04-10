@@ -1,61 +1,36 @@
-import React from "react"
-import { View, ViewStyle, TextStyle } from "react-native"
-import { HeaderProps } from "./header.props"
-import { Button } from "../button/button"
-import { Text } from "../text/text"
-import { Icon } from "../icon/icon"
-import { spacing } from "../../theme"
-import { translate } from "../../i18n/"
+import React, { useState } from "react"
+import { observer } from "mobx-react-lite"
+import { color, typography } from "../../theme"
+import { perfectHeight, perfectWidth } from "../../utils/commonFunctions"
+import styled from "styled-components/native"
+import Typography from "../Typography"
 
-// static styles
-const ROOT: ViewStyle = {
-  flexDirection: "row",
-  paddingHorizontal: spacing[4],
-  alignItems: "center",
-  paddingTop: spacing[5],
-  paddingBottom: spacing[5],
-  justifyContent: "flex-start",
+
+export interface HeaderProps {
+  /**
+   * An optional style override useful for padding & margin.
+   */
+  title: string
 }
-const TITLE: TextStyle = { textAlign: "center" }
-const TITLE_MIDDLE: ViewStyle = { flex: 1, justifyContent: "center" }
-const LEFT: ViewStyle = { width: 32 }
-const RIGHT: ViewStyle = { width: 32 }
 
 /**
- * Header that appears on many screens. Will hold navigation buttons and screen title.
+ * Describe your component here
  */
-export function Header(props: HeaderProps) {
-  const {
-    onLeftPress,
-    onRightPress,
-    rightIcon,
-    leftIcon,
-    headerText,
-    headerTx,
-    style,
-    titleStyle,
-  } = props
-  const header = headerText || (headerTx && translate(headerTx)) || ""
-
+export const Header = observer(function Header(props: HeaderProps) {
+  const { title } = props
   return (
-    <View style={[ROOT, style]}>
-      {leftIcon ? (
-        <Button preset="link" onPress={onLeftPress}>
-          <Icon icon={leftIcon} />
-        </Button>
-      ) : (
-        <View style={LEFT} />
-      )}
-      <View style={TITLE_MIDDLE}>
-        <Text style={[TITLE, titleStyle]} text={header} />
-      </View>
-      {rightIcon ? (
-        <Button preset="link" onPress={onRightPress}>
-          <Icon icon={rightIcon} />
-        </Button>
-      ) : (
-        <View style={RIGHT} />
-      )}
-    </View>
+    <MainContainer>
+      <Typography text={title} />
+    </MainContainer>
   )
-}
+})
+
+
+const MainContainer = styled.View`
+  width: 100%;
+  height: ${perfectHeight(9)}px;
+  padding-horizontal:${perfectWidth(3)}px;
+  align-self: center;
+  justify-content: center;
+  background-color: ${color.palette.orangeDarker};
+`
