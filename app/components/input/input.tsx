@@ -12,27 +12,42 @@ export interface InputProps {
    */
   title: string
   placeholder: string
-  keyboardType: string
+  keyboardType?: string
   secureTextEntry?: boolean
+  onChangeText: any
+  error?: string
 }
 
 /**
  * Describe your component here
  */
 export const Input = observer(function Input(props: InputProps) {
-  const { title, placeholder, keyboardType } = props
-  const [first, setFirst] = useState(false)
+  const { title, placeholder, keyboardType, error } = props
 
   return (
     <MainContainer>
-      <Typography text={title} width={'90%'} />
-      <InputContainer {...props} keyboardType={keyboardType} placeholder={placeholder} />
+      <TextContainer>
+        <Typography text={title} width={'90%'} />
+        <InputContainer {...props} keyboardType={keyboardType} placeholder={placeholder} />
+      </TextContainer>
+      {error && (
+        <Typography
+          color={color.palette.angry}
+          text={error}
+          size={12}
+          marginTop={perfectHeight(1)}
+        />
+      )}
     </MainContainer>
   )
 })
 
 
-const MainContainer = styled.View.attrs({
+const MainContainer = styled.View`
+  width: 80%;
+`
+
+const TextContainer = styled.View.attrs({
   shadowColor: '#000',
   shadowOffset: {
     width: 2,
@@ -42,7 +57,7 @@ const MainContainer = styled.View.attrs({
   shadowRadius: 3.84,
   elevation: 5,
 })`
-  width: 80%;
+  width: 100%;
   height: ${perfectHeight(9)}px;
   border-radius: ${perfectWidth(2)}px;
   align-self: center;
