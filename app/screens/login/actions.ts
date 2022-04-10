@@ -15,7 +15,6 @@ export const login = (body: any) => {
     .then(
       async (response: AxiosResponse): Promise<any> => {
         if (response) {
-          console.log("🚀 ~ file: actions.ts ~ line 18 ~ response", response)
           await AsyncStorage.setItem("token", response?.data?.token)
           onSuccess()
           return response.data
@@ -23,8 +22,7 @@ export const login = (body: any) => {
       },
     )
     .catch((err: any) => {
-      console.log("🚀 ~ file: actions.ts ~ line 31 ~ login ~ err", err)
-      const errorMessage = err?.response?.data?.message || "Error occurred"
+      const errorMessage = err?.response?.data?.error || "Error occurred"
       Toast.show({
         type: "error",
         text1: "Error",
