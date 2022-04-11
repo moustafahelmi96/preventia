@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { TouchableOpacity, ViewStyle } from "react-native"
+import { ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
 import { Header, Screen, UsersDropdown } from "../../components"
@@ -49,7 +49,12 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
 
     return (
       <Screen style={ROOT} preset="scroll">
-        <Header title={"Welcome moustafa!"} />
+        <Header
+          title={"Welcome Moustafa!"}
+          onSelectUserPress={() => {
+            setModalVisible(true)
+          }}
+        />
         <UsersDropdown
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
@@ -63,12 +68,6 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
           currentPage={usersDataPage}
           totalPages={info?.total_pages}
           loaderMoreLoader={loaderMoreLoader}
-        />
-        <TouchableOpacity
-          style={{ width: 100, height: 100, backgroundColor: "green" }}
-          onPress={() => {
-            setModalVisible(true)
-          }}
         />
       </Screen>
     )

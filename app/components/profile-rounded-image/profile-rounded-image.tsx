@@ -11,32 +11,35 @@ export interface ProfileRoundedImageProps {
    */
   style?: StyleProp<ViewStyle>
   image: string
+  size?: number
 }
 
 /**
  * Describe your component here
  */
-export const ProfileRoundedImage = observer(function ProfileRoundedImage(props: ProfileRoundedImageProps) {
-  const { image } = props
+export const ProfileRoundedImage = observer(function ProfileRoundedImage(
+  props: ProfileRoundedImageProps,
+) {
+  const { image, size } = props
 
   return (
-    <Border>
-      <Image source={{ uri: image }} resizeMode="cover" />
+    <Border size={size}>
+      <Image source={{ uri: image }} resizeMode="cover" size={size} />
     </Border>
   )
 })
 
 const Border = styled.View`
-width: ${perfectWidth(16)}px;
-height: ${perfectWidth(16)}px;
-border-radius:${perfectWidth(76)}px;
- justify-content: center;
- align-items: center;
- background-color: ${palette.orange};
- `
-
-const Image = styled.Image` 
-   width: ${perfectWidth(13)}px;
-  height: ${perfectWidth(13)}px;
+  width: ${({ size }) => (size ? perfectWidth(size) : perfectWidth(16))}px;
+  height: ${({ size }) => (size ? perfectWidth(size) : perfectWidth(16))}px;
   border-radius: ${perfectWidth(76)}px;
- `
+  justify-content: center;
+  align-items: center;
+  background-color: ${palette.orange};
+`
+
+const Image = styled.Image`
+  width: ${({ size }) => (size ? perfectWidth(size - 1.5) : perfectWidth(13))}px;
+  height: ${({ size }) => (size ? perfectWidth(size - 1.5) : perfectWidth(13))}px;
+  border-radius: ${perfectWidth(76)}px;
+`
