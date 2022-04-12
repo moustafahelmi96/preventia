@@ -13,3 +13,7 @@ const viewPortSize = { width: screenWidth, height: screenHeight }
 
 export const perfectFont = (value: number): number =>
   RFPercentage((value / viewPortSize.height) * 100)
+
+export const hasMoreToFetch = (currentDataLength, totalDataLength) => {
+  return currentDataLength < totalDataLength
+}

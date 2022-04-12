@@ -7,6 +7,7 @@ import Typography from "../Typography"
 import GeneralContext from "../../context/GeneralContext"
 import { ProfileRoundedImage } from "../profile-rounded-image/profile-rounded-image"
 import { isEmpty } from "ramda"
+import { SafeAreaView } from "react-native"
 export interface HeaderProps {
   /**
    * An optional style override useful for padding & margin.
@@ -22,26 +23,27 @@ export const Header = observer(function Header(props: HeaderProps) {
   const { title, onSelectUserPress } = props
   const { activeUser } = useContext(GeneralContext)
   return (
-    <MainContainer>
-      <Typography text={title} />
-
-      {onSelectUserPress && (
-        <ActiveUserContainer
-          onPress={() => {
-            onSelectUserPress()
-          }}
-        >
-          {!isEmpty(activeUser) ? (
-            <>
-              <ProfileRoundedImage image={activeUser.picture} size={9} />
-              <Typography text={`${activeUser.firstName} ${activeUser.lastName}`} maxChar={12} />
-            </>
-          ) : (
-            <Typography text={"Choose user"} />
-          )}
-        </ActiveUserContainer>
-      )}
-    </MainContainer>
+    <SafeAreaView>
+      <MainContainer>
+        <Typography text={title} />
+        {onSelectUserPress && (
+          <ActiveUserContainer
+            onPress={() => {
+              onSelectUserPress()
+            }}
+          >
+            {!isEmpty(activeUser) ? (
+              <>
+                <ProfileRoundedImage image={activeUser.picture} size={9} />
+                <Typography text={`${activeUser.firstName} ${activeUser.lastName}`} maxChar={12} />
+              </>
+            ) : (
+              <Typography text={"Choose user"} />
+            )}
+          </ActiveUserContainer>
+        )}
+      </MainContainer>
+    </SafeAreaView>
   )
 })
 
@@ -54,6 +56,7 @@ const MainContainer = styled.View`
   align-items: center;
   justify-content: space-between;
   background-color: ${color.palette.orangeDarker};
+  
 `
 
 const ActiveUserContainer = styled.TouchableOpacity`
@@ -63,5 +66,7 @@ const ActiveUserContainer = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  background-color: ${color.palette.angry};
+  background-color: ${color.palette.lightGreyBackground};
+  border-width: 1px;
+  border-color: ${color.palette.white};
 `

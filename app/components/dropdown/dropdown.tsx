@@ -1,7 +1,7 @@
 import React from "react"
 import { observer } from "mobx-react-lite"
 import { color } from "../../theme"
-import { perfectHeight, perfectWidth } from "../../utils/commonFunctions"
+import { hasMoreToFetch, perfectHeight, perfectWidth } from "../../utils/commonFunctions"
 import styled from "styled-components/native"
 import Typography from "../Typography"
 import Modal from "react-native-modal"
@@ -30,7 +30,7 @@ export interface DropdownProps {
   // set current page number
   setCurrentPage?: any
   // load more loader button
-  loaderMoreLoader?: boolean
+  loadMoreLoader?: boolean
 }
 
 /**
@@ -46,7 +46,7 @@ export const Dropdown = observer(function Dropdown(props: DropdownProps) {
     nextPage,
     totalDataCount,
     currentPage,
-    loaderMoreLoader,
+    loadMoreLoader,
   } = props
   return (
     <ModalContainer
@@ -90,10 +90,10 @@ export const Dropdown = observer(function Dropdown(props: DropdownProps) {
             )
           })}
         <VerticalSpace height={2} />
-        {currentPage < Math.ceil(totalDataCount / dataLimit) && (
+        {hasMoreToFetch(data.length, totalDataCount) && (
           <Button
             text="load more"
-            loader={loaderMoreLoader}
+            loader={loadMoreLoader}
             onPress={() => {
               nextPage()
             }}
