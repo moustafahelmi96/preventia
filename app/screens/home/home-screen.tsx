@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite"
 import { ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
-import { Header, Screen, UsersDropdown } from "../../components"
+import { Header, Screen, Dropdown } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 import { color } from "../../theme"
 import { getAllUsers } from "./actions"
@@ -11,9 +11,9 @@ import GeneralContext from "../../context/GeneralContext"
 
 export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = observer(
   function HomeScreen() {
+    const { setActiveUser, activeUser } = useContext(GeneralContext)
     const [modalVisible, setModalVisible] = useState(false)
     const [usersData, setUsersData] = useState([])
-    const { setActiveUser, activeUser } = useContext(GeneralContext)
     const [usersDataPage, setUsersDataPage] = useState(1)
     const [loaderMoreLoader, setLoaderMoreLoader] = useState(false)
     const [info, setInfo] = useState()
@@ -27,16 +27,16 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
 
     const getUsers = async (page) => {
       // get all users
-      try {
-        getAllUsers({
-          page: page,
-        }).then((res) => {
+      getAllUsers({
+        page: page,
+      })
+        .then((res) => {
           setUsersData([...usersData, ...res.data])
           setInfo(res)
         })
-      } finally {
-        setLoaderMoreLoader(false)
-      }
+        .finally(() => {
+          setLoaderMoreLoader(false)
+        })
     }
 
     useEffect(() => {
@@ -55,7 +55,7 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
             setModalVisible(true)
           }}
         />
-        <UsersDropdown
+        <Dropdown
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
           data={usersData}
@@ -66,7 +66,7 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
           activeData={activeUser}
           nextPage={getUsersNextPage}
           currentPage={usersDataPage}
-          totalPages={info?.total_pages}
+          totalDataCount={info?.total}
           loaderMoreLoader={loaderMoreLoader}
         />
       </Screen>

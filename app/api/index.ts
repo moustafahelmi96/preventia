@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosInstance, AxiosPromise } from "axios"
 import promise from "promise"
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { backendUrl } from "../config/constants"
+import { appId, dataBackendUrl, loginBackendUrl } from "../config/constants"
 
 // Add a request interceptor
 export const axiosInstance: AxiosInstance = axios.create()
@@ -14,9 +14,12 @@ axiosInstance.interceptors.request.use(
 
     if (!config.headers["Content-Type"]) config.headers["Content-Type"] = "application/json"
     // if token is found add it to the header
-    if (accessToken) config.headers["Authorization"] = "Bearer " + accessToken
+    if (accessToken) {
+      config.headers["Authorization"] = "Bearer " + accessToken
+      config.headers["app-id"] = appId
+    }
     // Injecting the API server IP
-    config.url = backendUrl + config.url
+    config.url = (accessToken ? dataBackendUrl : loginBackendUrl) + config.url
     return config
   },
   function (error) {

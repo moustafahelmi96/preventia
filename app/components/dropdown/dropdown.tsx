@@ -8,8 +8,9 @@ import Modal from "react-native-modal"
 import { ProfileRoundedImage } from "../profile-rounded-image/profile-rounded-image"
 import { VerticalSpace } from "../vertical-space/vertical-space"
 import { Button } from "../button/button"
+import { dataLimit } from "../../config/constants"
 
-export interface UsersDropdownProps {
+export interface DropdownProps {
   // data to be displayed
   data: any
   // modal is visible boolean
@@ -23,7 +24,7 @@ export interface UsersDropdownProps {
   // call get next data "page"
   nextPage?: any
   // total number of pages
-  totalPages?: number
+  totalDataCount?: number
   // current page number
   currentPage?: number
   // set current page number
@@ -35,7 +36,7 @@ export interface UsersDropdownProps {
 /**
  * Describe your component here
  */
-export const UsersDropdown = observer(function UsersDropdown(props: UsersDropdownProps) {
+export const Dropdown = observer(function Dropdown(props: DropdownProps) {
   const {
     data,
     modalVisible,
@@ -43,7 +44,7 @@ export const UsersDropdown = observer(function UsersDropdown(props: UsersDropdow
     onDataPress,
     activeData,
     nextPage,
-    totalPages,
+    totalDataCount,
     currentPage,
     loaderMoreLoader,
   } = props
@@ -76,25 +77,20 @@ export const UsersDropdown = observer(function UsersDropdown(props: UsersDropdow
                   onDataPress(item)
                 }}
               >
-                <ProfileRoundedImage image={item.avatar} />
+                <ProfileRoundedImage image={item.picture} />
                 <UserInfo>
                   <Typography
                     color={isActive ? color.palette.white : color.palette.black}
-                    text={`${item.first_name} ${item.last_name}`}
+                    text={`${item.firstName} ${item.lastName}`}
                     width={"65%"}
                     fontWeight="bold"
-                  />
-                  <Typography
-                    color={isActive ? color.palette.white : color.palette.black}
-                    text={item.email}
-                    width={"100%"}
                   />
                 </UserInfo>
               </ModalItem>
             )
           })}
         <VerticalSpace height={2} />
-        {currentPage < totalPages && (
+        {currentPage < Math.ceil(totalDataCount / dataLimit) && (
           <Button
             text="load more"
             loader={loaderMoreLoader}

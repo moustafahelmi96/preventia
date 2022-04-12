@@ -1,12 +1,12 @@
-import React, { useContext, useState } from "react"
+import React, { useContext } from "react"
 import { observer } from "mobx-react-lite"
-import { color, typography } from "../../theme"
+import { color } from "../../theme"
 import { perfectHeight, perfectWidth } from "../../utils/commonFunctions"
 import styled from "styled-components/native"
 import Typography from "../Typography"
 import GeneralContext from "../../context/GeneralContext"
 import { ProfileRoundedImage } from "../profile-rounded-image/profile-rounded-image"
-
+import { isEmpty } from "ramda"
 export interface HeaderProps {
   /**
    * An optional style override useful for padding & margin.
@@ -24,16 +24,17 @@ export const Header = observer(function Header(props: HeaderProps) {
   return (
     <MainContainer>
       <Typography text={title} />
+
       {onSelectUserPress && (
         <ActiveUserContainer
           onPress={() => {
             onSelectUserPress()
           }}
         >
-          {activeUser ? (
+          {!isEmpty(activeUser) ? (
             <>
               <ProfileRoundedImage image={activeUser.avatar} size={9} />
-              <Typography text={`${activeUser.first_name} ${activeUser.last_name}`} />
+              <Typography text={`${activeUser.firstName} ${activeUser.lastName}`} maxChar={12} />
             </>
           ) : (
             <Typography text={"Choose user"} />
