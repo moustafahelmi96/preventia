@@ -12,7 +12,7 @@ export interface HeaderProps {
    * An optional style override useful for padding & margin.
    */
   title: string
-  onSelectUserPress: any
+  onSelectUserPress?: any
 }
 
 /**
@@ -24,20 +24,22 @@ export const Header = observer(function Header(props: HeaderProps) {
   return (
     <MainContainer>
       <Typography text={title} />
-      <ActiveUserContainer
-        onPress={() => {
-          onSelectUserPress()
-        }}
-      >
-        {activeUser ? (
-          <>
-            <ProfileRoundedImage image={activeUser.avatar} size={9} />
-            <Typography text={`${activeUser.first_name} ${activeUser.last_name}`} />
-          </>
-        ) : (
-          <Typography text={"Choose user"} />
-        )}
-      </ActiveUserContainer>
+      {onSelectUserPress && (
+        <ActiveUserContainer
+          onPress={() => {
+            onSelectUserPress()
+          }}
+        >
+          {activeUser ? (
+            <>
+              <ProfileRoundedImage image={activeUser.avatar} size={9} />
+              <Typography text={`${activeUser.first_name} ${activeUser.last_name}`} />
+            </>
+          ) : (
+            <Typography text={"Choose user"} />
+          )}
+        </ActiveUserContainer>
+      )}
     </MainContainer>
   )
 })

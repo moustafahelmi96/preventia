@@ -6,6 +6,7 @@ import { View } from "react-native"
 import Typography from "../../components/Typography"
 import { palette } from "../../theme/palette"
 import { perfectWidth } from "../../utils/commonFunctions"
+import { SettingsNavigator } from "../settings/settings-navigator"
 
 export type BottomNavigatorParamList = {
   demo: undefined
@@ -26,11 +27,16 @@ export const BottomNavigator = () => {
         options={{
           tabBarLabel: () => undefined,
           tabBarIcon: ({ focused }) =>
-            focused ? (
-              <ActiveComponent label={"Home"} />
-            ) : (
-              <Typography text={'Home'} />
-            )
+            focused ? <ActiveComponent label={"Home"} /> : <Typography text={"Home"} />,
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={SettingsNavigator}
+        options={{
+          tabBarLabel: () => undefined,
+          tabBarIcon: ({ focused }) =>
+            focused ? <ActiveComponent label={"Settings"} /> : <Typography text={"Settings"} />,
         }}
       />
     </Tab.Navigator>
@@ -45,7 +51,6 @@ const ActiveComponent = ({ label }) => {
     </View>
   )
 }
-
 
 const TAB_BAR_STYLE = {
   backgroundColor: color.palette.white,

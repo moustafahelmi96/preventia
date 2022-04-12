@@ -8,6 +8,7 @@ const GeneralContext = createContext<types.GeneralContextType>({
   checkForAuthorization: () => null,
   setActiveUser: () => null,
   activeUser: {},
+  logout: () => null,
 })
 
 export const GeneralProvider: FC<types.IProps> = ({ children }) => {
@@ -29,6 +30,12 @@ export const GeneralProvider: FC<types.IProps> = ({ children }) => {
     })
   }
 
+  const logout = async () => {
+    AsyncStorage.clear().then(() => {
+      setIsAuthorized(false)
+    })
+  }
+
   useEffect(() => {
     checkForAuthorization()
   }, [])
@@ -41,6 +48,7 @@ export const GeneralProvider: FC<types.IProps> = ({ children }) => {
         checkForAuthorization,
         setActiveUser,
         activeUser,
+        logout,
       }}
     >
       {children}

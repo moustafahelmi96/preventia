@@ -6,6 +6,7 @@ export type GeneralContextType = {
   checkForAuthorization?: any
   setActiveUser?: any
   activeUser?: any
+  logout?: any
 }
 
 export interface IProps {
