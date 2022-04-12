@@ -31,7 +31,6 @@ export const PostDetailsScreen: FC<StackScreenProps<NavigatorParamList, "postDet
       getPostComments({
         postId: postId,
       }).then((res) => {
-        console.log("🚀 ~ file: post-details-screen.tsx ~ line 33 ~ getPostComments ~ res", res)
         setPostComments(res.data)
       })
     }
@@ -51,10 +50,6 @@ export const PostDetailsScreen: FC<StackScreenProps<NavigatorParamList, "postDet
     useEffect(() => {
       postDetails()
     }, [postId])
-
-    useEffect(() => {
-      console.log("post", post)
-    }, [post])
 
     return (
       <>
