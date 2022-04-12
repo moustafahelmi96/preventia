@@ -33,7 +33,7 @@ export const Header = observer(function Header(props: HeaderProps) {
         >
           {!isEmpty(activeUser) ? (
             <>
-              <ProfileRoundedImage image={activeUser.avatar} size={9} />
+              <ProfileRoundedImage image={activeUser.picture} size={9} />
               <Typography text={`${activeUser.firstName} ${activeUser.lastName}`} maxChar={12} />
             </>
           ) : (

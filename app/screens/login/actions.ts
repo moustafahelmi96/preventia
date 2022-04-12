@@ -2,12 +2,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { AxiosResponse } from "axios"
 import { sendAxiosRequest as AXIOS } from "../../api"
 import Toast from "react-native-toast-message"
+import { loginBackendUrl } from "../../config/constants"
 
 export const login = (body: any) => {
   const onSuccess = body.onSuccess
   delete body.onSuccess
   return AXIOS({
-    url: "/login",
+    url: `${loginBackendUrl}/login`,
     method: "POST",
     body,
     headers: { "Content-Type": "application/json" },

@@ -19,7 +19,7 @@ axiosInstance.interceptors.request.use(
       config.headers["app-id"] = appId
     }
     // Injecting the API server IP
-    config.url = (accessToken ? dataBackendUrl : loginBackendUrl) + config.url
+    // config.url = (accessToken ? dataBackendUrl : loginBackendUrl) + config.url
     return config
   },
   function (error) {

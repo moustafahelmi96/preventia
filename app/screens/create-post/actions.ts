@@ -1,13 +1,14 @@
 import { AxiosResponse } from "axios"
 import { sendAxiosRequest as AXIOS } from "../../api"
 import Toast from "react-native-toast-message"
-import { dataBackendUrl, dataLimit } from "../../config/constants"
+import { createPostBackendUrl } from "../../config/constants"
 
-export const getAllUsers = (body: any) => {
+export const createPost = (body: any) => {
   return AXIOS({
-    url: `${dataBackendUrl}/user?page=${body.page}?&limit=${dataLimit}`,
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
+    url: createPostBackendUrl,
+    method: "POST",
+    body,
+    headers: { "Content-type": "application/json; charset=UTF-8" },
   })
     .then(
       async (response: AxiosResponse): Promise<any> => {

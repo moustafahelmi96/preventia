@@ -4,9 +4,9 @@ import { color } from "../../theme"
 import { HomeNavigator } from "../home/home-navigator"
 import { View } from "react-native"
 import Typography from "../../components/Typography"
-import { palette } from "../../theme/palette"
 import { perfectWidth } from "../../utils/commonFunctions"
 import { SettingsNavigator } from "../settings/settings-navigator"
+import { CreatePostNavigator } from "../create-post/create-post-navigator"
 
 export type BottomNavigatorParamList = {
   demo: undefined
@@ -28,6 +28,15 @@ export const BottomNavigator = () => {
           tabBarLabel: () => undefined,
           tabBarIcon: ({ focused }) =>
             focused ? <ActiveComponent label={"Home"} /> : <Typography text={"Home"} />,
+        }}
+      />
+      <Tab.Screen
+        name="Post"
+        component={CreatePostNavigator}
+        options={{
+          tabBarLabel: () => undefined,
+          tabBarIcon: ({ focused }) =>
+            focused ? <ActiveComponent label={"Post"} /> : <Typography text={"Post"} />,
         }}
       />
       <Tab.Screen

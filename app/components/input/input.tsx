@@ -5,7 +5,6 @@ import { perfectHeight, perfectWidth } from "../../utils/commonFunctions"
 import styled from "styled-components/native"
 import Typography from "../Typography"
 
-
 export interface InputProps {
   /**
    * An optional style override useful for padding & margin.
@@ -15,20 +14,27 @@ export interface InputProps {
   keyboardType?: string
   secureTextEntry?: boolean
   onChangeText: any
+  multiline?: boolean
   error?: string
+  defaultValue?: string
 }
 
 /**
  * Describe your component here
  */
 export const Input = observer(function Input(props: InputProps) {
-  const { title, placeholder, keyboardType, error } = props
+  const { title, placeholder, keyboardType, multiline, error } = props
 
   return (
     <MainContainer>
-      <TextContainer>
-        <Typography text={title} width={'90%'} />
-        <InputContainer {...props} keyboardType={keyboardType} placeholder={placeholder} />
+      <TextContainer multiline={multiline}>
+        <Typography text={title} width={"90%"} />
+        <InputContainer
+          {...props}
+          keyboardType={keyboardType}
+          placeholder={placeholder}
+          multiline={multiline}
+        />
       </TextContainer>
       {error && (
         <Typography
@@ -42,13 +48,12 @@ export const Input = observer(function Input(props: InputProps) {
   )
 })
 
-
 const MainContainer = styled.View`
-  width: 80%;
+  width: 100%;
 `
 
 const TextContainer = styled.View.attrs({
-  shadowColor: '#000',
+  shadowColor: "#000",
   shadowOffset: {
     width: 2,
     height: 2,
@@ -58,7 +63,7 @@ const TextContainer = styled.View.attrs({
   elevation: 5,
 })`
   width: 100%;
-  height: ${perfectHeight(9)}px;
+  height: ${({ multiline }) => (multiline ? perfectHeight(20) : perfectHeight(9))}px;
   border-radius: ${perfectWidth(2)}px;
   align-self: center;
   justify-content: space-evenly;
