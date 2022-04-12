@@ -1,39 +1,83 @@
-import React, { FC } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { ViewStyle } from "react-native"
+import { ActivityIndicator, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
-import { Screen, Text } from "../../components"
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "../../models"
+import { Comment, Header, Post, Screen } from "../../components"
 import { color } from "../../theme"
+import { getPostComments, getPostDetails } from "./actions"
+import styled from "styled-components/native"
+import { perfectHeight } from "../../utils/commonFunctions"
 
-
-
-// STOP! READ ME FIRST!
-// To fix the TS error below, you'll need to add the following things in your navigation config:
-// - Add `postDetails: undefined` to NavigatorParamList
-// - Import your screen, and add it to the stack:
-//     `<Stack.Screen name="postDetails" component={PostDetailsScreen} />`
-// Hint: Look for the 🔥!
-
-// REMOVE ME! ⬇️ This TS ignore will not be necessary after you've added the correct navigator param type
 // @ts-ignore
-export const PostDetailsScreen: FC<StackScreenProps<NavigatorParamList, "postDetails">> = observer(function PostDetailsScreen() {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
+export const PostDetailsScreen: FC<StackScreenProps<NavigatorParamList, "postDetails">> = observer(
+  function PostDetailsScreen({ route }) {
+    const { postId } = route.params
+    const [loader, setLoader] = useState(false)
+    const [post, setPost] = useState()
+    const [postComments, setPostComments] = useState([])
 
-  // Pull in navigation via hook
-  // const navigation = useNavigation()
-  return (
-    <Screen style={ROOT} preset="scroll">
-      <Text preset="header" text="postDetails" />
-    </Screen>
-  )
-})
+    const postDetails = () => {
+      setLoader(true)
+      getPostDetails({
+        postId: postId,
+      })
+        .then((res) => {
+          setPost(res)
+        })
+        .finally(() => {
+          setLoader(false)
+        })
+      getPostComments({
+        postId: postId,
+      }).then((res) => {
+        console.log("🚀 ~ file: post-details-screen.tsx ~ line 33 ~ getPostComments ~ res", res)
+        setPostComments(res.data)
+      })
+    }
 
+    const renderComments = () =>
+      postComments.map((comment, index) => {
+        return (
+          <Comment
+            comment={comment.message}
+            userImage={comment.owner.picture}
+            userName={`${comment.owner.firstName} ${comment.owner.lastName}`}
+            key={index}
+          />
+        )
+      })
+
+    useEffect(() => {
+      postDetails()
+    }, [postId])
+
+    useEffect(() => {
+      console.log("post", post)
+    }, [post])
+
+    return (
+      <>
+        <Header title={"Post details"} />
+        <Screen style={ROOT} preset="scroll">
+          {loader || post === undefined ? (
+            <Loader size={"small"} color={color.palette.orangeDarker} />
+          ) : (
+            <>
+              <Post post={post} />
+              {renderComments()}
+            </>
+          )}
+        </Screen>
+      </>
+    )
+  },
+)
 
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.white,
-  flex: 1,
 }
+
+const Loader = styled(ActivityIndicator)`
+  margin-top: ${perfectHeight(10)}px;
+`

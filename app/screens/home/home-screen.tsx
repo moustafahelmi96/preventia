@@ -4,7 +4,7 @@ import { ActivityIndicator, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
 import { Header, Screen, Dropdown, Post, Button, VerticalSpace } from "../../components"
-// import { useNavigation } from "@react-navigation/native"
+import { useNavigation } from "@react-navigation/native"
 import { color } from "../../theme"
 import { getAllUsers, getUserPosts } from "./actions"
 import GeneralContext from "../../context/GeneralContext"
@@ -27,7 +27,8 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
     const [postsInfo, setPostsInfo] = useState()
     const [postsLoadMoreLoader, setPostsLoadMoreLoader] = useState(false)
     const [posts, setPosts] = useState([])
-    // const navigation = useNavigation()
+
+    const navigation = useNavigation()
 
     // FUNCTIONS SECTION
     const getUsers = async (page) => {
@@ -113,7 +114,13 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
           ) : posts.length > 0 ? (
             <>
               {posts.map((post, index) => (
-                <Post post={post} key={index} />
+                <Post
+                  post={post}
+                  key={index}
+                  onPress={() => {
+                    navigation.navigate("postDetails", { postId: post.id })
+                  }}
+                />
               ))}
               <VerticalSpace height={2} />
               {hasMoreToFetch(posts.length, postsInfo.total) && (

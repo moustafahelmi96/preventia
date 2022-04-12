@@ -20,7 +20,7 @@ export interface PostProps {
 export const Post = observer(function Post(props: PostProps) {
   const { post } = props
   return (
-    <MainContainer>
+    <MainContainer {...props}>
       <ProfileContainer>
         <ProfileRoundedImage image={post.owner.picture} size={14} />
         <Typography text={`${post.owner.firstName} ${post.owner.lastName}`} width={"80%"} noLimit />
