@@ -14,6 +14,7 @@ import Typography from "../../components/Typography"
 
 export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = observer(
   function HomeScreen() {
+    const navigation = useNavigation()
     const { setActiveUser, activeUser } = useContext(GeneralContext)
     // dropdown data
     const [modalVisible, setModalVisible] = useState(false)
@@ -31,8 +32,6 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
     const [tags, setTags] = useState([])
     const [tagsLoader, setTagsLoader] = useState(false)
     const [selectedTag, setSelectedTag] = useState("")
-
-    const navigation = useNavigation()
 
     // FUNCTIONS SECTION
     const getUsers = async (page) => {
@@ -136,6 +135,8 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
           setModalVisible={setModalVisible}
           data={usersData}
           onDataPress={(data) => {
+            setPosts([])
+            setSelectedTag(undefined)
             setModalVisible(false)
             setActiveUser(data)
           }}
@@ -161,7 +162,10 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
                   <SingleTagContainer
                     title={tag}
                     key={index}
+                    isActive={selectedTag === tag}
                     onPress={() => {
+                      setPosts([])
+                      setActiveUser({})
                       setSelectedTag(tag)
                     }}
                   />

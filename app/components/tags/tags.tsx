@@ -16,10 +16,14 @@ export interface TagsProps {
  * Describe your component here
  */
 export const Tags = observer(function Tags(props: TagsProps) {
-  const { title } = props
+  const { title, isActive } = props
   return (
-    <MainContainer {...props}>
-      <Typography text={title} size={14} color={color.palette.lightGrey} />
+    <MainContainer {...props} isActive={isActive}>
+      <Typography
+        text={title}
+        size={14}
+        color={isActive ? color.palette.white : color.palette.lightGrey}
+      />
     </MainContainer>
   )
 })
@@ -32,4 +36,6 @@ const MainContainer = styled.TouchableOpacity`
   border-top-left-radius: ${perfectWidth(1.5)}px;
   padding-horizontal: ${perfectWidth(3)}px;
   border-color: ${color.palette.orangeDarker};
+  background-color: ${({ isActive }) =>
+    isActive ? color.palette.orangeDarker : color.palette.white};
 `

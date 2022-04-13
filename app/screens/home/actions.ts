@@ -73,7 +73,7 @@ export const getAllTags = () => {
 }
 
 export const getFilteredPosts = (body: any) => {
-  const tag = body.tag.trim()
+  const tag = body?.tag?.trim()
   return AXIOS({
     url: `${dataBackendUrl}/tag/${tag}/post?limit=${dataLimit}&page=${body.page}`,
     method: "GET",
