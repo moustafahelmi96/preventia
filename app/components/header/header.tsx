@@ -55,7 +55,7 @@ const MainContainer = styled.View`
   align-self: center;
   align-items: center;
   justify-content: space-between;
-  background-color: ${color.palette.orangeDarker};
+  background-color: ${color.palette.redDarker};
   
 `
 

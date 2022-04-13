@@ -56,7 +56,7 @@ export const PostDetailsScreen: FC<StackScreenProps<NavigatorParamList, "postDet
         <Header title={"Post details"} />
         <Screen style={ROOT} preset="scroll">
           {loader || post === undefined ? (
-            <Loader size={"small"} color={color.palette.orangeDarker} />
+            <Loader size={"small"} color={color.palette.redDarker} />
           ) : (
             <>
               <Post post={post} />

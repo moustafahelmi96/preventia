@@ -35,7 +35,7 @@ const MainContainer = styled.TouchableOpacity`
   border-width: 0.5px;
   border-top-left-radius: ${perfectWidth(1.5)}px;
   padding-horizontal: ${perfectWidth(3)}px;
-  border-color: ${color.palette.orangeDarker};
+  border-color: ${color.palette.redDarker};
   background-color: ${({ isActive }) =>
-    isActive ? color.palette.orangeDarker : color.palette.white};
+    isActive ? color.palette.redDarker : color.palette.white};
 `

@@ -35,7 +35,7 @@ const Border = styled.View`
   border-radius: ${perfectWidth(76)}px;
   justify-content: center;
   align-items: center;
-  background-color: ${palette.orange};
+  background-color: ${palette.lighterRed};
 `
 
 const Image = styled.Image`

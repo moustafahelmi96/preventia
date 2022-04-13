@@ -154,7 +154,7 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
         />
         <Screen style={ROOT} preset="scroll" unsafe>
           {tagsLoader ? (
-            <Loader size={"small"} color={color.palette.orangeDarker} withMargin={2} />
+            <Loader size={"small"} color={color.palette.redDarker} withMargin={2} />
           ) : (
             <TagsScrollView horizontal>
               <TagsContainer>
@@ -174,7 +174,7 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
             </TagsScrollView>
           )}
           {loader ? (
-            <Loader size={"small"} color={color.palette.orangeDarker} withMargin={10} />
+            <Loader size={"small"} color={color.palette.redDarker} withMargin={10} />
           ) : posts.length > 0 ? (
             <>
               {posts.map((post, index) => (

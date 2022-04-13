@@ -75,7 +75,7 @@ const TAB_BAR_STYLE = {
 
 const GREEN_UNDERLINE = {
   borderWidth: 2,
-  borderColor: color.palette.orangeDarker,
+  borderColor: color.palette.redDarker,
   borderRadius: 2,
   width: perfectWidth(8),
 }

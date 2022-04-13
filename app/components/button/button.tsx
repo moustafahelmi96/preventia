@@ -78,7 +78,7 @@ const handleColorType = (loader, outline, disabled) => {
   } else if (disabled) {
     return color.palette.lightGrey;
   } else {
-    return color.palette.orangeDarker;
+    return color.palette.redDarker;
   }
 };
 
