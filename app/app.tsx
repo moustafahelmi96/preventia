@@ -21,7 +21,7 @@ import { ToggleStorybook } from "../storybook/toggle-storybook"
 import { ErrorBoundary } from "./screens/error/error-boundary"
 import Toast from "react-native-toast-message"
 import { GeneralProvider } from "./context/GeneralContext"
-
+import SplashScreen from 'react-native-splash-screen'
 // This puts screens in a native ViewController or Activity. If you want fully native
 // stack navigation, use `createNativeStackNavigator` in place of `createStackNavigator`:
 // https://github.com/kmagiera/react-native-screens#using-native-stack-navigator
@@ -46,6 +46,11 @@ function App() {
       setupRootStore().then(setRootStore)
     })()
   }, [])
+
+  useEffect(() => {
+    SplashScreen.hide()
+  }, [])
+  
 
   // Before we show the app, we have to wait for our state to be ready.
   // In the meantime, don't render anything. This will be the background
