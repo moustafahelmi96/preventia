@@ -3,13 +3,13 @@ import { observer } from "mobx-react-lite"
 import { ActivityIndicator, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
-import { Header, Screen, Dropdown, Post, Button, VerticalSpace } from "../../components"
+import { Header, Screen, Dropdown, Post, Button, VerticalSpace, Tags } from "../../components"
 import { useNavigation } from "@react-navigation/native"
 import { color } from "../../theme"
-import { getAllUsers, getUserPosts } from "./actions"
+import { getAllTags, getAllUsers, getFilteredPosts, getUserPosts } from "./actions"
 import GeneralContext from "../../context/GeneralContext"
 import styled from "styled-components/native"
-import { hasMoreToFetch, perfectHeight } from "../../utils/commonFunctions"
+import { hasMoreToFetch, perfectHeight, perfectWidth } from "../../utils/commonFunctions"
 import Typography from "../../components/Typography"
 
 export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = observer(
@@ -27,6 +27,10 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
     const [postsInfo, setPostsInfo] = useState()
     const [postsLoadMoreLoader, setPostsLoadMoreLoader] = useState(false)
     const [posts, setPosts] = useState([])
+    // tag data
+    const [tags, setTags] = useState([])
+    const [tagsLoader, setTagsLoader] = useState(false)
+    const [selectedTag, setSelectedTag] = useState("")
 
     const navigation = useNavigation()
 
@@ -61,6 +65,18 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
         })
     }
 
+    const getTags = () => {
+      // get all tags
+      setTagsLoader(true)
+      getAllTags()
+        .then((res) => {
+          setTags(res.data)
+        })
+        .finally(() => {
+          setTagsLoader(false)
+        })
+    }
+
     const getUsersNextPage = () => {
       setUsersLoadMoreLoader(true)
       setUsersDataPage(usersDataPage + 1)
@@ -69,12 +85,32 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
 
     const getPostsNextPage = () => {
       setPostsLoadMoreLoader(true)
-      getPosts(postsDataPage + 1)
+      if (selectedTag !== "") {
+        filterData(postsDataPage + 1)
+      } else {
+        getPosts(postsDataPage + 1)
+      }
       setPostsDataPage(postsDataPage + 1)
+    }
+
+    const filterData = (page) => {
+      getFilteredPosts({
+        tag: selectedTag,
+        page: page,
+      })
+        .then((res) => {
+          setPosts([...posts, ...res.data])
+          setPostsInfo(res)
+        })
+        .finally(() => {
+          setPostsLoadMoreLoader(false)
+          setLoader(false)
+        })
     }
 
     // USE_EFFECT SECTION
     useEffect(() => {
+      getTags()
       getUsers(usersDataPage)
     }, [])
 
@@ -85,6 +121,13 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
         getPosts(postsDataPage)
       }
     }, [activeUser])
+
+    useEffect(() => {
+      if (selectedTag !== "") {
+        setLoader(true)
+        filterData(postsDataPage)
+      }
+    }, [selectedTag])
 
     return (
       <>
@@ -109,8 +152,25 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
           }}
         />
         <Screen style={ROOT} preset="scroll" unsafe>
+          {tagsLoader ? (
+            <Loader size={"small"} color={color.palette.orangeDarker} withMargin={2} />
+          ) : (
+            <TagsScrollView horizontal>
+              <TagsContainer>
+                {tags.map((tag, index) => (
+                  <SingleTagContainer
+                    title={tag}
+                    key={index}
+                    onPress={() => {
+                      setSelectedTag(tag)
+                    }}
+                  />
+                ))}
+              </TagsContainer>
+            </TagsScrollView>
+          )}
           {loader ? (
-            <Loader size={"small"} color={color.palette.orangeDarker} />
+            <Loader size={"small"} color={color.palette.orangeDarker} withMargin={10} />
           ) : posts.length > 0 ? (
             <>
               {posts.map((post, index) => (
@@ -154,5 +214,25 @@ const ROOT: ViewStyle = {
 }
 
 const Loader = styled(ActivityIndicator)`
-  margin-top: ${perfectHeight(10)}px;
+  margin-top: ${({ withMargin }) => withMargin && perfectHeight(withMargin)}px;
+  align-self: center;
+  width: 90%;
+  justify-content: center;
+`
+
+const TagsScrollView = styled.ScrollView`
+  width: 90%;
+  height: ${perfectHeight(6)}px;
+  align-self: center;
+`
+
+const TagsContainer = styled.View`
+  width: 100%;
+  height: 100%;
+  flex-direction: row;
+  align-items: center;
+`
+
+const SingleTagContainer = styled(Tags)`
+  margin-right: ${perfectWidth(2)}px;
 `

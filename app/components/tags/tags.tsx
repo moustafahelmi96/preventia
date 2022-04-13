@@ -18,7 +18,7 @@ export interface TagsProps {
 export const Tags = observer(function Tags(props: TagsProps) {
   const { title } = props
   return (
-    <MainContainer>
+    <MainContainer {...props}>
       <Typography text={title} size={14} color={color.palette.lightGrey} />
     </MainContainer>
   )
