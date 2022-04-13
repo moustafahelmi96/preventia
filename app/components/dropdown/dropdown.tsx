@@ -8,7 +8,6 @@ import Modal from "react-native-modal"
 import { ProfileRoundedImage } from "../profile-rounded-image/profile-rounded-image"
 import { VerticalSpace } from "../vertical-space/vertical-space"
 import { Button } from "../button/button"
-import { dataLimit } from "../../config/constants"
 
 export interface DropdownProps {
   // data to be displayed
@@ -25,8 +24,6 @@ export interface DropdownProps {
   nextPage?: any
   // total number of pages
   totalDataCount?: number
-  // current page number
-  currentPage?: number
   // set current page number
   setCurrentPage?: any
   // load more loader button
@@ -45,7 +42,6 @@ export const Dropdown = observer(function Dropdown(props: DropdownProps) {
     activeData,
     nextPage,
     totalDataCount,
-    currentPage,
     loadMoreLoader,
   } = props
   return (
@@ -65,41 +61,43 @@ export const Dropdown = observer(function Dropdown(props: DropdownProps) {
         textAlign="center"
         color={color.palette.white}
       />
-      <ModalBase>
-        {(data || [].length > 0) &&
-          data.map((item, index) => {
-            const isActive = item?.id === activeData?.id
-            return (
-              <ModalItem
-                key={index}
-                active={isActive}
-                onPress={() => {
-                  onDataPress(item)
-                }}
-              >
-                <ProfileRoundedImage image={item.picture} />
-                <UserInfo>
-                  <Typography
-                    color={isActive ? color.palette.white : color.palette.black}
-                    text={`${item.firstName} ${item.lastName}`}
-                    width={"65%"}
-                    fontWeight="bold"
-                  />
-                </UserInfo>
-              </ModalItem>
-            )
-          })}
-        <VerticalSpace height={2} />
-        {hasMoreToFetch(data.length, totalDataCount) && (
-          <Button
-            text="load more"
-            loader={loadMoreLoader}
-            onPress={() => {
-              nextPage()
-            }}
-          />
-        )}
-      </ModalBase>
+      <CurvedContainer>
+        <ModalBase>
+          {(data || [].length > 0) &&
+            data.map((item, index) => {
+              const isActive = item?.id === activeData?.id
+              return (
+                <ModalItem
+                  key={index}
+                  active={isActive}
+                  onPress={() => {
+                    onDataPress(item)
+                  }}
+                >
+                  <ProfileRoundedImage image={item.picture} />
+                  <UserInfo>
+                    <Typography
+                      color={isActive ? color.palette.white : color.palette.black}
+                      text={`${item.firstName} ${item.lastName}`}
+                      width={"65%"}
+                      fontWeight="bold"
+                    />
+                  </UserInfo>
+                </ModalItem>
+              )
+            })}
+          <VerticalSpace height={2} />
+          {hasMoreToFetch(data.length, totalDataCount) && (
+            <Button
+              text="load more"
+              loader={loadMoreLoader}
+              onPress={() => {
+                nextPage()
+              }}
+            />
+          )}
+        </ModalBase>
+      </CurvedContainer>
     </ModalContainer>
   )
 })
@@ -111,16 +109,23 @@ const ModalContainer = styled(Modal)`
   background-color: ${color.palette.transparentBlack};
 `
 
-const ModalBase = styled.ScrollView`
+const CurvedContainer = styled.View`
   width: 100%;
-  max-height: 80%;
-  padding-bottom: 5%;
-  background-color: ${color.palette.lightGrey};
+  height: 80%;
   border-top-left-radius: ${perfectWidth(20)}px;
+  background-color: ${color.palette.lighterGrey};
+  justify-content: flex-end;
+`
+
+const ModalBase = styled.ScrollView`
+  width: 90%;
+  max-height: 90%;
+  padding-bottom: 5%;
+  align-self: center;
 `
 
 const ModalItem = styled.TouchableOpacity`
-  width: 90%;
+  width: 100%;
   height: ${perfectHeight(9)}px;
   margin-top: ${perfectHeight(2)}px;
   border-top-left-radius: ${perfectWidth(5)}px;

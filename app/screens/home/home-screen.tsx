@@ -31,7 +31,7 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
     // tag data
     const [tags, setTags] = useState([])
     const [tagsLoader, setTagsLoader] = useState(false)
-    const [selectedTag, setSelectedTag] = useState("")
+    const [selectedTag, setSelectedTag] = useState(undefined)
 
     // FUNCTIONS SECTION
     const getUsers = async (page) => {
