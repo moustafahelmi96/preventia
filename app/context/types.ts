@@ -6,6 +6,8 @@ export type GeneralContextType = {
   checkForAuthorization?: any
   setActiveUser?: any
   activeUser?: any
+  setIsAdmin?: any
+  isAdmin?: boolean
   logout?: any
 }
 

@@ -16,7 +16,7 @@ import { emailRegex } from "../../config/regex"
 
 export const LoginScreen: FC<StackScreenProps<NavigatorParamList, "login">> = observer(
   function LoginScreen() {
-    const { authorizeUser } = useContext(GeneralContext)
+    const { authorizeUser, setIsAdmin } = useContext(GeneralContext)
     const [loader, setLoader] = useState(false)
     const {
       register,
@@ -27,7 +27,7 @@ export const LoginScreen: FC<StackScreenProps<NavigatorParamList, "login">> = ob
 
     const onLoginSubmit = async (values: any) => {
       const onSuccess = () => {
-        authorizeUser()
+        authorizeUser(values.email)
         Toast.show({
           type: "success",
           text1: "Welcome!",
@@ -36,11 +36,10 @@ export const LoginScreen: FC<StackScreenProps<NavigatorParamList, "login">> = ob
       }
       try {
         setLoader(true)
-        // email: eve.holt@reqres.in
-        // password: cityslicka
         await login({
           email: values.email.toLowerCase(),
           password: values.password,
+          setIsAdmin,
           onSuccess,
         })
       } finally {

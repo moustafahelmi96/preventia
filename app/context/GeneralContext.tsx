@@ -8,15 +8,25 @@ const GeneralContext = createContext<types.GeneralContextType>({
   checkForAuthorization: () => null,
   setActiveUser: () => null,
   activeUser: {},
+  setIsAdmin: () => null,
+  isAdmin: false,
   logout: () => null,
 })
 
 export const GeneralProvider: FC<types.IProps> = ({ children }) => {
   const [isAuthorized, setIsAuthorized] = useState(false)
   const [activeUser, setActiveUser] = useState({})
+  const [isAdmin, setIsAdmin] = useState(false)
 
-  const authorizeUser = async () => {
+  const authorizeUser = async (email) => {
+    let checkIfAdmin = false
+    if (email === "michael.lawson@reqres.in") {
+      checkIfAdmin = true
+    }
     await AsyncStorage.setItem("isAuthorized", "true")
+    await AsyncStorage.setItem("userEmail", email)
+    await AsyncStorage.setItem("isAdmin", JSON.stringify(checkIfAdmin))
+    setIsAdmin(checkIfAdmin)
     setIsAuthorized(true)
   }
 
@@ -48,6 +58,8 @@ export const GeneralProvider: FC<types.IProps> = ({ children }) => {
         checkForAuthorization,
         setActiveUser,
         activeUser,
+        setIsAdmin,
+        isAdmin,
         logout,
       }}
     >

@@ -1,12 +1,12 @@
 import React, { FC, useContext, useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { ActivityIndicator, ViewStyle } from "react-native"
+import { ActivityIndicator, Alert, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
 import { Header, Screen, Dropdown, Post, Button, VerticalSpace, Tags } from "../../components"
 import { useNavigation } from "@react-navigation/native"
 import { color } from "../../theme"
-import { getAllTags, getAllUsers, getFilteredPosts, getUserPosts } from "./actions"
+import { deletePostById, getAllTags, getAllUsers, getFilteredPosts, getUserPosts } from "./actions"
 import GeneralContext from "../../context/GeneralContext"
 import styled from "styled-components/native"
 import { hasMoreToFetch, perfectHeight, perfectWidth } from "../../utils/commonFunctions"
@@ -15,7 +15,7 @@ import Typography from "../../components/Typography"
 export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = observer(
   function HomeScreen() {
     const navigation = useNavigation()
-    const { setActiveUser, activeUser } = useContext(GeneralContext)
+    const { setActiveUser, activeUser, isAdmin } = useContext(GeneralContext)
     // dropdown data
     const [modalVisible, setModalVisible] = useState(false)
     const [usersData, setUsersData] = useState([])
@@ -107,6 +107,30 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
         })
     }
 
+    const deletePostConfirmation = (post) => {
+      if (isAdmin) {
+        Alert.alert(
+          "Delete post",
+          "Are you sure you want to delete this post?",
+          [
+            { text: "No", onPress: () => console.log("No Pressed") },
+            {
+              text: "Yes",
+              onPress: () => deletePost(post),
+              style: "cancel",
+            },
+          ],
+          { cancelable: true },
+        )
+      }
+    }
+
+    const deletePost = async (post) => {
+      await deletePostById({
+        postId: post.id,
+      })
+    }
+
     // USE_EFFECT SECTION
     useEffect(() => {
       getTags()
@@ -183,6 +207,9 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
                   key={index}
                   onPress={() => {
                     navigation.navigate("postDetails", { postId: post.id })
+                  }}
+                  onLongPress={() => {
+                    deletePostConfirmation(post)
                   }}
                 />
               ))}
