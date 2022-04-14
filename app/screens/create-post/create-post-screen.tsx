@@ -55,7 +55,7 @@ export const CreatePostScreen: FC<StackScreenProps<NavigatorParamList, "createPo
 
     return (
       <Screen style={ROOT} preset="scroll">
-        <Header title={"Hello!"} />
+        <Header />
         <MainContainer>
           <Input
             title={"Post Title"}

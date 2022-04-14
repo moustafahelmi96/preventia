@@ -35,17 +35,18 @@ export const PostDetailsScreen: FC<StackScreenProps<NavigatorParamList, "postDet
       })
     }
 
-    const renderComments = () =>
-      postComments.map((comment, index) => {
-        return (
+    const renderComments = () => (
+      <CommentsContainer>
+        {postComments.map((comment, index) => (
           <Comment
             comment={comment.message}
             userImage={comment.owner.picture}
             userName={`${comment.owner.firstName} ${comment.owner.lastName}`}
             key={index}
           />
-        )
-      })
+        ))}
+      </CommentsContainer>
+    )
 
     useEffect(() => {
       postDetails()
@@ -53,8 +54,8 @@ export const PostDetailsScreen: FC<StackScreenProps<NavigatorParamList, "postDet
 
     return (
       <>
-        <Header title={"Post details"} />
-        <Screen style={ROOT} preset="scroll">
+        <Header />
+        <Screen style={ROOT} preset="fixed">
           {loader || post === undefined ? (
             <Loader size={"small"} color={color.palette.redDarker} />
           ) : (
@@ -75,4 +76,8 @@ const ROOT: ViewStyle = {
 
 const Loader = styled(ActivityIndicator)`
   margin-top: ${perfectHeight(10)}px;
+`
+
+const CommentsContainer = styled.ScrollView`
+margin-top: ${perfectHeight(1)}px;
 `

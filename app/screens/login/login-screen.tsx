@@ -66,7 +66,7 @@ export const LoginScreen: FC<StackScreenProps<NavigatorParamList, "login">> = ob
             <Container>
               <Input
                 title="Email"
-                placeholder="********@test.com"
+                placeholder="eve.holt@reqres.in"
                 keyboardType="email-address"
                 onChangeText={(value) => {
                   setValue("email", value)
@@ -75,7 +75,7 @@ export const LoginScreen: FC<StackScreenProps<NavigatorParamList, "login">> = ob
               />
               <Input
                 title="Password"
-                placeholder="********"
+                placeholder="cityslicka"
                 secureTextEntry
                 onChangeText={(value) => {
                   setValue("password", value)
