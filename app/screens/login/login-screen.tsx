@@ -114,7 +114,7 @@ const CurvedContainer = styled.View`
 
 const Container = styled.View`
   width: 90%;
-  height: ${perfectWidth(50)}px;
+  height: ${perfectWidth(55)}px;
   justify-content: space-between;
   align-self: center;
 `

@@ -8,11 +8,11 @@ import GeneralContext from "../../context/GeneralContext"
 import { ProfileRoundedImage } from "../profile-rounded-image/profile-rounded-image"
 import { isEmpty } from "ramda"
 import { SafeAreaView } from "react-native"
+import { LOGO } from "../../config/constants"
 export interface HeaderProps {
   /**
    * An optional style override useful for padding & margin.
    */
-  title: string
   onSelectUserPress?: any
 }
 
@@ -20,12 +20,12 @@ export interface HeaderProps {
  * Describe your component here
  */
 export const Header = observer(function Header(props: HeaderProps) {
-  const { title, onSelectUserPress } = props
+  const { onSelectUserPress } = props
   const { activeUser } = useContext(GeneralContext)
   return (
     <SafeAreaView>
-      <MainContainer>
-        <Typography text={title} />
+      <MainContainer justify={onSelectUserPress ? "space-between" : "center"}>
+        <Logo source={LOGO} />
         {onSelectUserPress && (
           <ActiveUserContainer
             onPress={() => {
@@ -54,9 +54,8 @@ const MainContainer = styled.View`
   flex-direction: row;
   align-self: center;
   align-items: center;
-  justify-content: space-between;
+  justify-content: ${({ justify }) => justify};
   background-color: ${color.palette.redDarker};
-  
 `
 
 const ActiveUserContainer = styled.TouchableOpacity`
@@ -69,4 +68,10 @@ const ActiveUserContainer = styled.TouchableOpacity`
   background-color: ${color.palette.lightGreyBackground};
   border-width: 1px;
   border-color: ${color.palette.white};
+`
+
+const Logo = styled.Image`
+  width: ${perfectWidth(15)}px;
+  height: ${perfectWidth(15)}px;
+  border-radius: ${perfectWidth(15) / 2}px;
 `
