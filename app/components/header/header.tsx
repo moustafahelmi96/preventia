@@ -9,42 +9,78 @@ import { ProfileRoundedImage } from "../profile-rounded-image/profile-rounded-im
 import { isEmpty } from "ramda"
 import { SafeAreaView } from "react-native"
 import { LOGO } from "../../config/constants"
+import { Icon } from "../icon/icon"
+import { useNavigation } from "@react-navigation/native"
 export interface HeaderProps {
   /**
    * An optional style override useful for padding & margin.
    */
   onSelectUserPress?: any
+  back?: boolean
+  showDropdown?: boolean
 }
 
 /**
  * Describe your component here
  */
 export const Header = observer(function Header(props: HeaderProps) {
-  const { onSelectUserPress } = props
+  const { onSelectUserPress, back, showDropdown } = props
   const { activeUser } = useContext(GeneralContext)
-  return (
-    <SafeAreaView>
-      <MainContainer justify={onSelectUserPress ? "space-between" : "center"}>
-        <Logo source={LOGO} />
-        {onSelectUserPress && (
-          <ActiveUserContainer
-            onPress={() => {
-              onSelectUserPress()
-            }}
-          >
-            {!isEmpty(activeUser) ? (
-              <>
-                <ProfileRoundedImage image={activeUser.picture} size={9} />
-                <Typography text={`${activeUser.firstName} ${activeUser.lastName}`} color={color.palette.white} maxChar={12} />
-              </>
-            ) : (
-              <Typography text={"Choose user"} color={color.palette.white} />
+  const navigation = useNavigation()
+
+  const headerRender = () => {
+    switch (true) {
+      case back:
+        return (
+          <MainContainer justify={"space-between"}>
+            {back && (
+              <Icon
+                icon={"back"}
+                onPress={() => {
+                  navigation.goBack()
+                }}
+              />
             )}
-          </ActiveUserContainer>
-        )}
-      </MainContainer>
-    </SafeAreaView>
-  )
+            <Logo source={LOGO} />
+            <EmptyView />
+          </MainContainer>
+        )
+
+      case showDropdown:
+        return (
+          <MainContainer justify={"space-between"}>
+            <Logo source={LOGO} />
+            {onSelectUserPress && (
+              <ActiveUserContainer
+                onPress={() => {
+                  onSelectUserPress()
+                }}
+              >
+                {!isEmpty(activeUser) ? (
+                  <>
+                    <ProfileRoundedImage image={activeUser.picture} size={9} />
+                    <Typography
+                      text={`${activeUser.firstName} ${activeUser.lastName}`}
+                      color={color.palette.white}
+                      maxChar={12}
+                    />
+                  </>
+                ) : (
+                  <Typography text={"Choose user"} color={color.palette.white} />
+                )}
+              </ActiveUserContainer>
+            )}
+          </MainContainer>
+        )
+      default:
+        return (
+          <MainContainer justify={"center"}>
+            <Logo source={LOGO} />
+          </MainContainer>
+        )
+    }
+  }
+  return <SafeAreaView>{headerRender()}</SafeAreaView>
 })
 
 const MainContainer = styled.View`
@@ -74,4 +110,8 @@ const Logo = styled.Image`
   width: ${perfectWidth(15)}px;
   height: ${perfectWidth(15)}px;
   border-radius: ${perfectWidth(15) / 2}px;
+`
+
+const EmptyView = styled.View`
+  width: ${perfectWidth(2)}px;
 `

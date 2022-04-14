@@ -171,10 +171,10 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = obse
           loadMoreLoader={usersLoadMoreLoader}
         />
         <Header
-          title={"Welcome Moustafa!"}
           onSelectUserPress={() => {
             setModalVisible(true)
           }}
+          showDropdown
         />
         <Screen style={ROOT} preset="scroll" unsafe>
           {tagsLoader ? (

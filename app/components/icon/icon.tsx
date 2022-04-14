@@ -1,5 +1,5 @@
 import * as React from "react"
-import { View, ImageStyle } from "react-native"
+import { View, ImageStyle, TouchableOpacity } from "react-native"
 import { AutoImage as Image } from "../auto-image/auto-image"
 import { IconProps } from "./icon.props"
 import { icons } from "./icons"
@@ -12,8 +12,8 @@ export function Icon(props: IconProps) {
   const { style: styleOverride, icon, containerStyle } = props
 
   return (
-    <View style={containerStyle}>
+    <TouchableOpacity style={containerStyle} {...props}>
       <Image style={[ROOT, styleOverride]} source={icons[icon]} />
-    </View>
+    </TouchableOpacity>
   )
 }

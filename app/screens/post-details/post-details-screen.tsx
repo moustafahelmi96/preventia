@@ -54,7 +54,7 @@ export const PostDetailsScreen: FC<StackScreenProps<NavigatorParamList, "postDet
 
     return (
       <>
-        <Header />
+        <Header back />
         <Screen style={ROOT} preset="fixed">
           {loader || post === undefined ? (
             <Loader size={"small"} color={color.palette.redDarker} />
