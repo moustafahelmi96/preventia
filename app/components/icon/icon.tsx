@@ -1,6 +1,5 @@
 import * as React from "react"
-import { View, ImageStyle, TouchableOpacity } from "react-native"
-import { AutoImage as Image } from "../auto-image/auto-image"
+import { ImageStyle, TouchableOpacity, Image } from "react-native"
 import { IconProps } from "./icon.props"
 import { icons } from "./icons"
 
